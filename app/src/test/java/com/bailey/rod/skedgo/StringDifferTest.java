@@ -11,6 +11,9 @@ import static junit.framework.Assert.assertTrue;
  */
 public class StringDifferTest {
 
+	/**
+	 * The sym diff of two empty strings is a pair of empty iterables
+	 */
 	@Test
 	public void emptyDiffEmpty() {
 		StringDiffer sd = new StringDiffer("", "");
@@ -19,6 +22,9 @@ public class StringDifferTest {
 		assertTrue(iterableIsEmpty(pair.getIterable2()));
 	}
 
+	/**
+	 * The sym diff of two disjoint strings is each of the strings unchanged
+	 */
 	@Test
 	public void diffDisjoint() {
 		StringDiffer sd = new StringDiffer("abc", "def");
@@ -27,6 +33,10 @@ public class StringDifferTest {
 		assertTrue(iterableIsString("def", pair.getIterable2()));
 	}
 
+	/**
+	 * Check sym diff of intersecting strings preserves non-lexicographic ordering
+	 * in the original strings.
+	 */
 	@Test
 	public void diffRandomOrderWithIntersection() {
 		StringDiffer sd = new StringDiffer("1qanp", "z+1we");
@@ -35,6 +45,9 @@ public class StringDifferTest {
 		assertTrue(iterableIsString("z+we", pair.getIterable2()));
 	}
 
+	/**
+	 * Test two strings with a single character in common
+	 */
 	@Test
 	public void diffOneCharIntersection() {
 		StringDiffer sd = new StringDiffer("abcd", "defg");
@@ -43,6 +56,9 @@ public class StringDifferTest {
 		assertTrue(iterableIsString("efg", pair.getIterable2()));
 	}
 
+	/**
+	 * Sym diff of identical strings is a pair of empty strings
+	 */
 	@Test
 	public void diffSame() {
 		StringDiffer sd = new StringDiffer("ab", "ab");
@@ -52,6 +68,9 @@ public class StringDifferTest {
 	}
 
 
+	/**
+	 * Check case is preserved and doesn't influence containment checks
+	 */
 	@Test
 	public void diffCaseSensitive() {
 		StringDiffer sd = new StringDiffer("bad", "BAD");
@@ -60,6 +79,9 @@ public class StringDifferTest {
 		assertTrue(iterableIsString("BAD", pair.getIterable2()));
 	}
 
+	/**
+	 * Punctuation should be hanled like any other character
+	 */
 	@Test
 	public void diffPunctuation() {
 		StringDiffer sd = new StringDiffer("!@#$", "%^&*");
@@ -68,6 +90,9 @@ public class StringDifferTest {
 		assertTrue(iterableIsString("%^&*", pair.getIterable2()));
 	}
 
+	/**
+	 * Repeating characters should be preserverd across diff operation.
+	 */
 	@Test
 	public void diffRepeatedChars() {
 		StringDiffer sd = new StringDiffer("aaa", "bbb");
